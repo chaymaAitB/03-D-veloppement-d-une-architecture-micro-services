@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes: # ← DIRECTLY UNDER gateway
+            - id: customers_route
+              uri: lb://CUSTOMER-SERVICE
+              predicates:
+                - Path=/api/customers/**
+
+            - id: products_route
+              uri: lb://INVENTORY-SERVICE
+              predicates:
+                - Path=/api/products/**
+# Simple logging configuration - just add this
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    reactor.netty.http.client: DEBUG
